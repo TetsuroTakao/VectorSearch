@@ -23,7 +23,13 @@ var webapplogger = factory.CreateLogger("Program");
 var webapp = webbuilder.Build();
 webapp.MapGet("/", () => "Hello World!");
 webapp.MapPost("/CreateTransportationPlan", () => {
-    var result = db.MilvusSERACH("JR九州出張");
+    var result = new List<string>();
+    if(string.IsNullOrEmpty(db.MilvusSERACH("JR九州出張").Result)){
+        foreach (var item in bingConnector.SearchAsync("JR九州出張", 10).Result)
+        {
+            result.Add(item);
+        }
+    }
     return result;
 });
 webapp.Run();
