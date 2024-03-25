@@ -16,8 +16,8 @@ public class PolyglotPersistencePlugin
     public async void Initialize(string apiKey)
     {
         await MilvusCheck();
-        memoryStore = new MilvusMemoryStore(milvusClient, "book",1536,Milvus.Client.SimilarityMetricType.Ip);
         milvusClient = new Milvus.Client.MilvusClient(host: "localhost", port: 19530, ssl:false);
+        memoryStore = new MilvusMemoryStore(milvusClient, "book",1536,Milvus.Client.SimilarityMetricType.Ip);
         if(apiKey == Environment.GetEnvironmentVariable("AI:HuggingFace:APIKey")!)
         {
             embeddingGenerator = new HuggingFaceTextEmbeddingGenerationService("intfloat/multilingual-e5-large", new Uri(@"https://huggingface.co/intfloat/multilingual-e5-large"), apiKey);
